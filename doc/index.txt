@@ -116,6 +116,18 @@ documentation page; You can read it by executing
   Restrict 'array' to the elements for which
   'predicate' returns true.
 
+* _.sample_size_u(array, n)
+
+  Select 'n' random, distinct items from 'array'
+  and collect them into a list. If 'n' is larger
+  than the array, all elements will be returned,
+  with no duplicates.
+
+  Example:
+
+    > _.sample_size_u({1,2,3}, 2)
+    { 3, 2 }
+
 * _.sample_size(array, n)
 
   Select 'n' random items from 'array' and collect
