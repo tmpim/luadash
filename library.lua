@@ -17,16 +17,16 @@ end
 
 function _.partial(f, ...)
   _.expect('partial', 1, 'function', f)
-  local args = { ... }
+  local args = table.pack(...)
   return function(...)
-    local args2, actual, n = { ... }, { }, #args
-    for i = 1, n do
+    local args2, actual = table.pack(...), { }
+    for i = 1, args.n do
       actual[i] = args[i]
     end
-    for i = 1, #args2 do
-      actual[n + i] = args2[i]
+    for i = 1, args2.n do
+      actual[args.n + i] = args2[i]
     end
-    return f(unpack(actual, 1, n + #args2))
+    return f(unpack(actual, 1, args.n + args2.n))
   end
 end
 
@@ -65,25 +65,12 @@ end
 function _.map(t1, f, ...)
   _.expect('map', 1, 'table', t1)
   _.expect('map', 2, 'function', f)
-  local args, n = {t1, ...}, 0
-  for i = 1, #args do
-    _.expect('map', 1 + i, 'table', args[i])
-    n = math.max(n, #args[i])
-  end
-  local out = {}
-  for i = 1, n do
-    local these = {}
-    for j = 1, #args do
-      these[j] = args[j][i]
-    end
-    out[i] = _.apply(f, these)
-  end
-  return out
+  return _.flat_map(t1, function(...) return { (f(...)) } end, ...)
 end
 
 function _.zip(...)
-  local args = {...}
-  for i = 1, #args do
+  local args = table.pack(...)
+  for i = 1, args.n do
     _.expect('zip', 1, 'table', args[i])
   end
   return _.map(function(...) return {...} end, ...)
@@ -91,8 +78,8 @@ end
 
 function _.push(t, ...)
   _.expect('push', 1, 'table', t)
-  local args = {...}
-  for i = 1, #args do
+  local args = table.pack(...)
+  for i = 1, args.n do
     table.insert(t, args[i])
   end
   return t
@@ -127,15 +114,15 @@ end
 function _.flat_map(t1, f, ...)
   _.expect('flat_map', 1, 'table', t1)
   _.expect('flat_map', 2, 'function', f)
-  local args, n = {t1, ...}, 0
-  for i = 1, #args do
-    _.expect('map', 1 + i, 'table', args[i])
+  local args, n = table.pack(t1, ...), 0
+  for i = 1, args.n do
+    _.expect('flat_map', 1 + i, 'table', args[i])
     n = math.max(n, #args[i])
   end
   local out, li = {}, 0
   for i = 1, n do
     local these = {}
-    for j = 1, #args do
+    for j = 1, args.n do
       these[j] = args[j][i]
     end
     local r = _.apply(f, these)
@@ -280,7 +267,11 @@ _.ops = {
   equals = function(a, b) return a == b end,
   divisible_by = function(a, b)
     return b % a == 0
-  end
+  end,
+  ['>'] = function(a, b) return a > b end,
+  ['>='] = function(a, b) return a >= b end,
+  ['<'] = function(a, b) return a < b end,
+  ['<='] = function(a, b) return a <= b end,
 }
 
 return _
