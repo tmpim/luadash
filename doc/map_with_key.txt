@@ -2,3 +2,12 @@
 
   Modify each key-value pair in 'table' by applying
   'function' to get the new key /and/ value.
+
+
+  Example:
+
+    > _.map_with_key( { 1 = '1, 1 = '2' },
+      function(k, v)
+        return tostring(k), tonumber(v)
+      end)
+    { ['1'] = 1, ['2'] = 2 }

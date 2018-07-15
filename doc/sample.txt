@@ -3,6 +3,23 @@
   Select 'n' random items from 'array' and collect
   them into a list.
 
+  Example:
+
+    > _.sample_size({1,2,3,4,5,6,7,8,9,10}, 2)
+    { 5, 8 }
+
 * _.sample(array)
 
   Select a single random element from 'array'
+
+  Example:
+
+    > _.sample({1,2,3,4,5,6})
+    4
+
+    The number 4 was chosen for this example
+    through fair dice roll, thus it is guaranteed
+    to be random.
+
+Since these functions are not deterministic, the
+examples may not reflect reality.

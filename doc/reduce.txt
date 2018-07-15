@@ -7,3 +7,8 @@
 
   Unlike `reduce_with_index', 'function' is *not*
   applied to the indices!
+
+  Example:
+
+    > _.reduce({ 1, 2, 3 }, _.ops.plus, 0)
+    6

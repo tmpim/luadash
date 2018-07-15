@@ -2,3 +2,8 @@
 
   Restrict 'array' to the elements for which
   'predicate' returns true.
+
+  Example:
+
+    > _.filter({ 1, 2, 3 }, _.partial(_.ops['<'], 1))
+    { 2, 3 }

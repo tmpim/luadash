@@ -4,3 +4,11 @@
   value by successively applying 'function' to each
   element, its index, and the accumulator, starting
   from 'zero'.
+
+  Example:
+
+    > _.reduce_with_index({ 1, 2, 3 },
+      function(acc, i, v)
+        return acc + i * v
+      end, 0)
+    14

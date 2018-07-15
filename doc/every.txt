@@ -2,3 +2,10 @@
 
   Checks that 'predicate' is true for all elements
   of 'array'.
+
+  Examples:
+
+    > _.every({ 1, 2, 3 }, _.partial(_.ops.divisible_by, 2))
+    false
+    > _.every({ 3, 6, 9 }, _.partial(_.ops.divisible_by, 3))
+    true

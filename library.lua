@@ -8,8 +8,10 @@ local function skip1(f)
 end
 
 function _.expect(n, arg, t, v)
-  if t == 'value' and v == nil then
-    return error(('%s: bad argument #%d (got nil)'):format(n, arg))
+  if t == 'value' then
+    if v == nil then
+      return error(('%s: bad argument #%d (got nil)'):format(n, arg))
+    end
   elseif type(v) ~= t then
     return error(('%s: bad argument #%d (expected %s, got %s)'):format(n, arg, t, type(v)))
   end
@@ -44,7 +46,7 @@ end
 function _.reduce_with_index(tab, f, z)
   _.expect('reduce_with_index', 1, 'table', tab)
   _.expect('reduce_with_index', 2, 'function', f)
-  _.expect('reduce_with_index', 2, 'value', z)
+  _.expect('reduce_with_index', 3, 'value', z)
   local out = z
   for i = 1, #tab do
     out = f(out, i, tab[i])

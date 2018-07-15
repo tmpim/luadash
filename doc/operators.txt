@@ -16,6 +16,10 @@ for all of Lua's operators.
 * _.ops.conj corresponds to and
 * _.ops.disj corresponds to or
 * _.ops.equals corresponds to ==
+* _.ops['>'] corresponds to >
+* _.ops['>='] corresponds to >=
+* _.ops['<'] corresponds to <
+* _.ops['<='] corresponds to <=
 
 Additionally, _.ops.divisible_by(x, y) tests to see
 if y is divisible by x.

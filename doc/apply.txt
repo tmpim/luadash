@@ -2,5 +2,8 @@
 
   Apply 'function' to the array 'arguments'.
 
-    _.apply(f, { 1, 2, 3 }) = f(1,2,3)
+  Example:
+
+    > print(_.apply(_.ops.add, {1, 2}))
+    3
 

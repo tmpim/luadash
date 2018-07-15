@@ -4,3 +4,10 @@
   if not, throw an error in the format
 
   name: bad argument #idx (type expected, got ...)
+
+  Examples:
+
+    > _.expect('foo', 1, 'string', '')
+    > _.expect('foo', 1, 'number', '')
+    error: foo: bad argument #1 (number expected,\
+    \  got string)

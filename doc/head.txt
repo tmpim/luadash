@@ -1,3 +1,8 @@
 * _.head(x)
 
   Return the first element of 'x'.
+
+  Example:
+
+    > _.head { 1, 2, 3 }
+    1

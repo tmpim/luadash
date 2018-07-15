@@ -3,7 +3,8 @@
   Return a new array created by inserting 'element'
   after each element of 'array'.
 
-    _.intersperse({ 1, 2, 3 }, 'a')
-  =>
+  Example:
+
+    > _.intersperse({ 1, 2, 3 }, 'a')
     { 1, 'a', 2, 'a', 3, 'a' }
 

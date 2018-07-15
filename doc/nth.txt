@@ -2,3 +2,8 @@
 
   Select the 'i'-th element of 'array'.
 
+  Example:
+
+    > _.nth({ 1, 2, 3 }, 2)
+    2
+

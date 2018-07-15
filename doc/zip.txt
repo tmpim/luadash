@@ -3,8 +3,7 @@
   Create a new array by grouping together every
   i-th element of '...'.
 
-  For instance:
-    _.zip({ 1, 2, 3 }, { 'a', 'b', c' })
-  =>
+  Example:
+    > _.zip({ 1, 2, 3 }, { 'a', 'b', c' })
     { { 1, 'a' }, { 2, 'b' }, { 3, 'c' } }
 

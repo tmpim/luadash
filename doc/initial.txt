@@ -1,3 +1,8 @@
 * _.initial(x)
 
   Return 'x', with the last element removed.
+
+  Example:
+
+    > _.initial { 1, 2, 3 }
+    { 1, 2}

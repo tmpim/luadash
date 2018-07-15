@@ -3,3 +3,8 @@
   Checks that 'predicate' is true for at least one
   element of 'array'.
 
+  Example:
+
+    > _.some( {1, 2, 3}, _.partial(_.ops['<'], 1) )
+    true
+

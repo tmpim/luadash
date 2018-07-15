@@ -4,6 +4,7 @@
   application of 'f' to the given arguments.
   For instance:
 
-    print(_.partial(_.ops.plus, 1)(2))
-  =>
+  Example:
+
+    > print(_.partial(_.ops.plus, 1)(2))
     3

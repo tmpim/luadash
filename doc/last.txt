@@ -1,3 +1,7 @@
 * _.last(x)
 
   Return the last element of 'x'.
+
+  > _.last { 1, 2, 3 }
+  3
+
