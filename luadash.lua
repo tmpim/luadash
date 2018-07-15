@@ -17,16 +17,16 @@ end
 
 function _.partial(f, ...)
   _.expect('partial', 1, 'function', f)
-  local args = { ... }
+  local args = table.pack( ... )
   return function(...)
-    local args2, actual, n = { ... }, { }, #args
-    for i = 1, n do
+    local args2, actual = table.pack( ... ), { }
+    for i = 1, args.n do
       actual[i] = args[i]
     end
-    for i = 1, #args2 do
+    for i = 1, args2.n do
       actual[n + i] = args2[i]
     end
-    return f(unpack(actual, 1, n + #args2))
+    return f(unpack(actual, 1, args.n + args2.n ))
   end
 end
 
