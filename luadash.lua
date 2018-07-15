@@ -1,5 +1,5 @@
 local doc_path = '/doc/'
-local topic = ((...) or 'index')
+local topic = (...) or 'index'
 
 -- Levenshtein Distance
 local function distance(str1, str2)
@@ -35,11 +35,13 @@ local function distance(str1, str2)
   return v0[#str2]
 end
 
-if fs.exists(doc_path .. topic .. ".txt") then
-  local f = fs.open(doc_path .. topic .. ".txt", 'r')
+if fs.exists(doc_path .. topic .. '.txt') then
+  local f = fs.open(doc_path .. topic .. '.txt', 'r')
   local s = f.readAll()
   local lns = select(2, s:gsub('\n', '\n'))
-  if lns > 15 then
+  local w, h = term.getSize()
+
+  if lns > h - 5 then
     term.clear()
     term.setCursorPos(1,1)
     parallel.waitForAny(
@@ -47,16 +49,24 @@ if fs.exists(doc_path .. topic .. ".txt") then
         textutils.pagedPrint(s)
       end,
       function()
-        local _, c = os.pullEvent('char')
-        if c == 'q' then
-          term.clear()
-          term.setCursorPos(1, 1)
-          error('Thank you for using LuaDash!', 0)
+        while true do
+          local _, c = os.pullEvent('char')
+          if c == 'q' then
+            term.clear()
+
+            local str = 'Thank you for using LuaDash!'
+            term.setCursorPos((w - #str) / 2, 2)
+            print(str)
+
+            term.setCursorPos(1, 4)
+            break
+          end
         end
       end)
   else
     print(s)
   end
+
   f.close()
 else
   printError('No documentation for ' .. topic)
