@@ -1,0 +1,6 @@
+* _.expect(name, idx, type, value)
+
+  Assert that 'value' is of the given 'type', and,
+  if not, throw an error in the format
+
+  name: bad argument #idx (type expected, got ...)

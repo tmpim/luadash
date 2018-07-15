@@ -1,0 +1,6 @@
+* _.apply(function, arguments)
+
+  Apply 'function' to the array 'arguments'.
+
+    _.apply(f, { 1, 2, 3 }) = f(1,2,3)
+

@@ -1,0 +1,4 @@
+* _.every(array, predicate)
+
+  Checks that 'predicate' is true for all elements
+  of 'array'.

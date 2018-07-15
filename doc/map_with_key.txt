@@ -1,0 +1,4 @@
+* _.map_with_key(table, function)
+
+  Modify each key-value pair in 'table' by applying
+  'function' to get the new key /and/ value.

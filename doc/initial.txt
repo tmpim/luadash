@@ -1,0 +1,3 @@
+* _.initial(x)
+
+  Return 'x', with the last element removed.

@@ -1,0 +1,9 @@
+* _.reduce(array, function, zero)
+
+  Reduce all of the elements in 'array' to a single
+  value by successively applying 'function' to each
+  element, and the accumulator, starting
+  from 'zero'.
+
+  Unlike `reduce_with_index', 'function' is *not*
+  applied to the indices!

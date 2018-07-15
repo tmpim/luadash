@@ -1,0 +1,4 @@
+* _.values(t)
+
+  Return a list of the values in 't'.
+

@@ -1,0 +1,22 @@
+Operators
+=========
+
+As a convenience, Luadash provides named functions
+for all of Lua's operators.
+
+* _.ops.plus corresponds to +
+* _.ops.minues corresponds to -
+* _.ops.times corresponds to *
+* _.ops.over corresponds to /
+* _.ops.power corresponds to ^
+* _.ops.modulo corresponds to %
+* _.ops.remainder corresponds to %
+* _.ops.rem corresponds to %
+* _.ops.mod corresponds to %
+* _.ops.conj corresponds to and
+* _.ops.disj corresponds to or
+* _.ops.equals corresponds to ==
+
+Additionally, _.ops.divisible_by(x, y) tests to see
+if y is divisible by x.
+

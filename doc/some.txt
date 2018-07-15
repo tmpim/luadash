@@ -1,0 +1,5 @@
+* _.some(array, predicate)
+
+  Checks that 'predicate' is true for at least one
+  element of 'array'.
+

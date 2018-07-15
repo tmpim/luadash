@@ -1,0 +1,11 @@
+* _.flat_map(array, f, ...)
+
+  Create a new array by applying 'function' to
+  every i-th element from 'array' and '...', and
+  concatenating all of the resulting arrays.
+
+    _.flat_map({ 1, 2, 3 },
+      function(x) return {x, x} end)
+  =>
+    { 1, 1, 2, 2, 3, 3 }
+

@@ -1,0 +1,8 @@
+* _.sample_size(array, n)
+
+  Select 'n' random items from 'array' and collect
+  them into a list.
+
+* _.sample(array)
+
+  Select a single random element from 'array'

@@ -1,0 +1,4 @@
+* _.nth(array, i)
+
+  Select the 'i'-th element of 'array'.
+

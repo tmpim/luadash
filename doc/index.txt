@@ -1,0 +1,156 @@
+       __                  ____                __  
+   ---/ /   __  __ ____ _ / __ \ ____ _ _____ / /_
+  ---/ /   / / / // __ `// / / // __ `// ___// __ \
+ ---/ /___/ /_/ // /_/ // /_/ // /_/ /(__  )/ / / /
+---/_____/\__,_/ \__,_//_____/ \__,_//____//_/ /_/
+
+Each of the functions mentioned below has their own
+documentation page; You can read it by executing
+
+  luadash [function]
+
+* _.expect(name, idx, type, value)
+
+  Assert that 'value' is of the given 'type', and,
+  if not, throw an error in the format
+
+  name: bad argument #idx (type expected, got ...)
+
+* _.partial(f, ...)
+
+  Return a function corresponding to the partial
+  application of 'f' to the given arguments.
+  For instance:
+
+    print(_.partial(_.ops.plus, 1)(2))
+  =>
+    3
+
+* _.map_with_key(table, function)
+
+  Modify each key-value pair in 'table' by applying
+  'function' to get the new key /and/ value.
+
+* _.reduce_with_index(array, function, zero)
+
+  Reduce all of the elements in 'array' to a single
+  value by successively applying 'function' to each
+  element, its index, and the accumulator, starting
+  from 'zero'.
+
+* _.reduce(array, function, zero)
+
+  Reduce all of the elements in 'array' to a single
+  value by successively applying 'function' to each
+  element, and the accumulator, starting
+  from 'zero'.
+
+  Unlike `reduce_with_index', 'function' is *not*
+  applied to the indices!
+
+* _.apply(function, arguments)
+
+  Apply 'function' to the array 'arguments'.
+
+    _.apply(f, { 1, 2, 3 }) = f(1,2,3)
+
+* _.map(array, function, ...)
+
+  Create a new array by applying 'function' to
+  every i-th element from 'array' and '...'.
+
+  For instance:
+    _.map({ 1, 2, 3 }, _.ops.plus, { 3, 2, 1 })
+  =>
+    { 4, 4, 4 }
+
+* _.zip(...)
+
+  Create a new array by grouping together every
+  i-th element of '...'.
+
+  For instance:
+    _.zip({ 1, 2, 3 }, { 'a', 'b', c' })
+  =>
+    { { 1, 'a' }, { 2, 'b' }, { 3, 'c' } }
+
+* _.push(t, ...) !
+
+  This function mutates 't'.
+  Add '...' to the end of 't', in place.
+
+* _.intersperse(array, element)
+
+  Return a new array created by inserting 'element'
+  after each element of 'array'.
+
+    _.intersperse({ 1, 2, 3 }, 'a')
+  =>
+    { 1, 'a', 2, 'a', 3, 'a' }
+
+* _.flatten(val)
+
+  Turn 'val', an array-of-arrays to a single array,
+  by unpacking each of its elements. Elements which
+  are not arrays are left alone.
+
+    _.flatten({ {1, 2}, 3, 4 })
+  =>
+    { 1, 2, 3, 4 }
+
+* _.flat_map(array, f, ...)
+
+  Create a new array by applying 'function' to
+  every i-th element from 'array' and '...', and
+  concatenating all of the resulting arrays.
+
+    _.flat_map({ 1, 2, 3 },
+      function(x) return {x, x} end)
+  =>
+    { 1, 1, 2, 2, 3, 3 }
+
+* _.filter(array, predicate)
+
+  Restrict 'array' to the elements for which
+  'predicate' returns true.
+
+* _.sample_size(array, n)
+
+  Select 'n' random items from 'array' and collect
+  them into a list.
+
+* _.sample(array)
+
+  Select a single random element from 'array'
+
+* _.head(x), _.last(x)
+
+  Return the first (respectively, last) element of
+  'x'.
+
+* _.tail(x), _.initial(x)
+
+  Return 'x', with the first (respectively, last)
+  element removed.
+
+* _.every(array, predicate)
+
+  Checks that 'predicate' is true for all elements
+  of 'array'.
+
+* _.some(array, predicate)
+
+  Checks that 'predicate' is true for at least one
+  element of 'array'.
+
+* _.nth(array, i)
+
+  Select the 'i'-th element of 'array'.
+
+* _.keys(t)
+
+  Return a list of the keys in 't'.
+
+* _.values(t)
+
+  Return a list of the values in 't'.

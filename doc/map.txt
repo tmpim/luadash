@@ -1,0 +1,10 @@
+* _.map(array, function, ...)
+
+  Create a new array by applying 'function' to
+  every i-th element from 'array' and '...'.
+
+  For instance:
+    _.map({ 1, 2, 3 }, _.ops.plus, { 3, 2, 1 })
+  =>
+    { 4, 4, 4 }
+

@@ -1,0 +1,9 @@
+* _.flatten(val)
+
+  Turn 'val', an array-of-arrays to a single array,
+  by unpacking each of its elements. Elements which
+  are not arrays are left alone.
+
+    _.flatten({ {1, 2}, 3, 4 })
+  =>
+    { 1, 2, 3, 4 }

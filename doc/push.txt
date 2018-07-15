@@ -1,0 +1,5 @@
+* _.push(t, ...) !
+
+  This function mutates 't'.
+  Add '...' to the end of 't', in place.
+

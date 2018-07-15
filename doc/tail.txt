@@ -1,0 +1,4 @@
+* _.tail(x)
+
+  Return 'x', with the first element removed.
+

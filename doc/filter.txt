@@ -1,0 +1,4 @@
+* _.filter(array, predicate)
+
+  Restrict 'array' to the elements for which
+  'predicate' returns true.
