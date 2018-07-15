@@ -155,8 +155,8 @@ function _.filter(t, p)
 end
 
 function _.sample_size(t, n)
-  _.expect('sample', 1, 'table', t)
-  _.expect('sample', 2, 'number', n)
+  _.expect('sample_size', 1, 'table', t)
+  _.expect('sample_size', 2, 'number', n)
   local out = {}
   for i = 1, n do
     out[i] = _.sample(t)
@@ -251,7 +251,14 @@ function _mt.__call(_, x)
       return _(f(...))
     end
   end
-  return setmetatable( x, { __index = function(t, k) return wrap(_[k]) end })
+  if type(x) == 'table' then
+    return setmetatable(x,
+      { __index = function(t, k)
+        return wrap(_[k])
+      end })
+  else
+    return x
+  end
 end
 
 _.ops = {
