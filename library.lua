@@ -197,21 +197,23 @@ end
 function _.every(t, p)
   _.expect('every', 1, 'table', t)
   _.expect('every', 1, 'function', p)
-  local out = true
   for i = 1, #t do
-    out = out and p(t[i])
+    if not p(t[i]) then
+      return false
+    end
   end
-  return out
+  return true
 end
 
 function _.some(t, p)
   _.expect('some', 1, 'table', t)
   _.expect('some', 1, 'function', p)
-  local out = false
   for i = 1, #t do
-    out = out or p(t[i])
+    if p(t[i]) then
+      return true
+    end
   end
-  return out
+  return false
 end
 
 function _.initial(t)
