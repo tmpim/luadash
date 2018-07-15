@@ -4,6 +4,8 @@
  ---/ /___/ /_/ // /_/ // /_/ // /_/ /(__  )/ / / /
 ---/_____/\__,_/ \__,_//_____/ \__,_//____//_/ /_/
 
+(Press 'q' at any time to exit the pager.)
+
 Each of the functions mentioned below has their own
 documentation page; You can read it by executing
 

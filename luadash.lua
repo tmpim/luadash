@@ -1,4 +1,4 @@
-local doc_path = '/doc/' -- change this to /rom/something/
+local doc_path = '/doc/'
 local topic = ((...) or 'index') .. '.txt'
 
 -- terrible heuristic haha it'll catch typos
@@ -15,7 +15,26 @@ end
 
 if fs.exists(doc_path .. topic) then
   local f = fs.open(doc_path .. topic, 'r')
-  textutils.pagedPrint(f.readAll(), 16)
+  local s = f.readAll()
+  local lns = select(2, s:gsub('\n', '\n'))
+  if lns > 15 then
+    term.clear()
+    term.setCursorPos(1,1)
+    parallel.waitForAny(
+      function()
+        textutils.pagedPrint(s)
+      end,
+      function()
+        local _, c = os.pullEvent('char')
+        if c == 'q' then
+          term.clear()
+          term.setCursorPos(1, 1)
+          error('Thank you for using LuaDash!', 0)
+        end
+      end)
+  else
+    print(s)
+  end
   f.close()
 else
   printError('No documentation for ' .. topic)
