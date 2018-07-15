@@ -118,11 +118,10 @@ documentation page; You can read it by executing
 
 * _.sample_size_u(array, n)
 
-  Select 'n' random items from 'array' and collect
-  them into a list. Variant of sample_size where
-  selected items are guaranteed to be unique. If
-  'n' is larger than the array, all elements will
-  be returned, with no duplicates.
+  Select 'n' random, distinct items from 'array'
+  and collect them into a list. If 'n' is larger
+  than the array, all elements will be returned,
+  with no duplicates.
 
   Example:
 
