@@ -1,7 +1,9 @@
 * _.sample_size(array, n)
 
-  Select 'n' random items from 'array' and collect
-  them into a list.
+  Select 'n' random, distinct items from 'array'
+  and collect them into a list. If 'n' is larger
+  than the array, all elements will be returned,
+  with no duplicates.
 
   Example:
 

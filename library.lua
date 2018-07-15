@@ -157,9 +157,19 @@ end
 function _.sample_size(t, n)
   _.expect('sample_size', 1, 'table', t)
   _.expect('sample_size', 2, 'number', n)
+
+  if #t <= n then
+    return t
+  end
+
+  local src = _.keys(t)
   local out = {}
   for i = 1, n do
-    out[i] = _.sample(t)
+    local k = _.sample(src)
+    out[i] = t[k]
+
+    src[k] = src[#src]
+    src[#src] = nil
   end
   return out
 end
