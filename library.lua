@@ -155,8 +155,8 @@ function _.filter(t, p)
 end
 
 function _.sample_size_u(t, n)
-  _.expect('sample_size', 1, 'table', t)
-  _.expect('sample_size', 2, 'number', n)
+  _.expect('sample_size_u', 1, 'table', t)
+  _.expect('sample_size_u', 2, 'number', n)
 
   if #t <= n then
     return t
