@@ -293,8 +293,9 @@ _.ops = {
   ['<='] = function(a, b) return a <= b end,
 }
 
-string.startswith = function(self, str) 
-  return self:find('^' .. str) ~= nil
+function string.starts_with(self, s)
+  _.expect('starts_with', 1, 'string', s)
+  return self:find('^' .. s) ~= nil
 end
 
 return _
