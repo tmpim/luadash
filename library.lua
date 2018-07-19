@@ -294,7 +294,7 @@ _.ops = {
 }
 
 string.startswith = function(self, str) 
-    return self:find('^' .. str) ~= nil
+  return self:find('^' .. str) ~= nil
 end
 
 return _
