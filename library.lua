@@ -255,6 +255,36 @@ function _.values(t)
   return out
 end
 
+function _.once(f)
+    _.expect('partial', 1, 'function', f)
+    local cache
+    return function(...)
+        if not cache then
+            cache = table.pack(f(...))
+        end
+        return unpack(cache,1,cache.n)
+    end
+end
+
+function _.memoize(f)
+    _.expect('partial', 1, 'function', f)
+    local cache = {}
+    return function(...)
+        local key = select(1, ... )
+        if not cache[key] then
+            cache[key] = table.pack(f(...))
+        end
+        return unpack(cache[key],1,cache[key].n)
+    end
+end
+
+function _.negate(f)
+    _.expect('partial', 1, 'function', f)
+    return function(...)
+        return not f(...)
+    end
+end
+
 function _mt.__call(_, x)
   local function wrap(f)
     return function(...)
@@ -283,6 +313,7 @@ _.ops = {
   mod = function(a, b) return a % b end,
   conj = function(a, b) return a and b end,
   disj = function(a, b) return a or b end,
+  negate = function(a) return not a end,
   equals = function(a, b) return a == b end,
   divisible_by = function(a, b)
     return b % a == 0

@@ -1,0 +1,11 @@
+* _.negate(f)
+
+  Return a function that negates results of f.
+  
+  Examples:
+
+    > a = _.negate(_.ops.equals)
+    > a(1,1)
+    false
+    > a(1,2)
+    true

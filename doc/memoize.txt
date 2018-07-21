@@ -1,0 +1,17 @@
+* _.memoize(f)
+
+  Returns a function that memoizes result of f.
+  First argument provided to memoize function
+  is used as cache key.
+  
+  Examples:
+
+    > a = _.memoize(_.ops.plus)
+    > a(1,2)
+    3
+    > a(2,3)
+    5
+    > a(1,3)
+    3
+    > a(2,0)
+    5

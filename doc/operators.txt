@@ -15,6 +15,7 @@ for all of Lua's operators.
 * _.ops.mod corresponds to %
 * _.ops.conj corresponds to and
 * _.ops.disj corresponds to or
+* _.ops.negate corresponds to not
 * _.ops.equals corresponds to ==
 * _.ops['>'] corresponds to >
 * _.ops['>='] corresponds to >=

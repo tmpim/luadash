@@ -1,0 +1,13 @@
+* _.once(f)
+
+  Returns a function that is restricted to invoke
+  f only once. Subsequent calls returns cached
+  return of the first invocation.
+  
+  Examples:
+
+    > a = _.once(_.ops.plus)
+    > a(1,2)
+    3
+    > a(6,5)
+    3
