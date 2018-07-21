@@ -271,6 +271,7 @@ function _.memoize(f)
     local cache = {}
     return function(...)
         local key = select(1, ... )
+        key = key == nil and cache or key
         if not cache[key] then
             cache[key] = table.pack(f(...))
         end
