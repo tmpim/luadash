@@ -256,12 +256,12 @@ function _.values(t)
 end
 
 function _mt.__call(_, x)
-  local function wrap(f)
-    return function(...)
-      return _(f(...))
-    end
-  end
   if type(x) == 'table' then
+    local function wrap(f)
+      return function(...)
+        return _(f(...))
+      end
+    end
     return setmetatable(x,
       { __index = function(t, k)
         return wrap(_[k])
