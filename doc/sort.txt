@@ -1,0 +1,16 @@
+* _.sort(array)
+
+  Sort the elements of 'array' and return it.
+  Merely an alias for 'table.sort'
+
+* _.sort_with(array, iteratee)
+
+  Sort 'array' by 'iteratee' where the value
+  returned by 'iteratee' determines how the
+  array will be sorted.
+
+  Example:
+
+    _.sort_with({ 1, 2, 3 }, math.sin)
+  =>
+    { 3, 1, 2 }

@@ -154,6 +154,18 @@ function _.filter(t, p)
   return out
 end
 
+function _.sort(t)
+  _.expect('sort', 1, 'table', t)
+  return table.sort(t)
+end
+
+function _.sort_with(t, i)
+  _.expect('sort_with', 1, 'table', t)
+  _.expect('sort_with', 2, 'function', i)
+  table.sort(t, function(a, b) return i(a) < i(b) end)
+  return t
+end
+
 function _.sample_size(t, n)
   _.expect('sample_size', 1, 'table', t)
   _.expect('sample_size', 2, 'number', n)
