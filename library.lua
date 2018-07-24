@@ -154,6 +154,26 @@ function _.filter(t, p)
   return out
 end
 
+function _.id(v)
+  _.expect('id', 1, 'value', v)
+  return v
+end
+
+function _.sort_by(t, f)
+  _.expect('sort_by', 1, 'table', t)
+  _.expect('sort_by', 2, 'function', f)
+  local nt = _.map(t, _.id)
+
+  table.sort(nt, function(a, b) return f(a) < f(b) end)
+  return nt
+end
+
+function _.sort(t)
+  _.expect('sort', 1, 'table', t)
+
+  return _.sort_by(t, _.id)
+end
+
 function _.sample_size(t, n)
   _.expect('sample_size', 1, 'table', t)
   _.expect('sample_size', 2, 'number', n)

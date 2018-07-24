@@ -116,6 +116,25 @@ documentation page; You can read it by executing
   Restrict 'array' to the elements for which
   'predicate' returns true.
 
+* _.id(value)
+
+  Return 'value' unmodified.
+
+* _.sort(array)
+
+  Sort the elements of 'array' and return it.
+  Merely an alias for 'table.sort'
+
+* _.sort_by(array, function)
+
+  Sort 'array' by 'function' where the value
+  returned by 'function' determines how the
+  array will be sorted.
+
+    _.sort_by({ 1, 2, 3 }, math.sin)
+  =>
+    { 3, 1, 2 }
+
 * _.sample_size(array, n)
 
   Select 'n' random, distinct items from 'array'
