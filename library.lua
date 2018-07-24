@@ -156,14 +156,19 @@ end
 
 function _.sort(t)
   _.expect('sort', 1, 'table', t)
-  return table.sort(t)
+  local nt = {}
+  for i = 1, #t do
+    nt[i] = t[i]
+  end
+  
+  table.sort(nt)
+  return nt
 end
 
 function _.sort_with(t, i)
   _.expect('sort_with', 1, 'table', t)
   _.expect('sort_with', 2, 'function', i)
-  table.sort(t, function(a, b) return i(a) < i(b) end)
-  return t
+  return _.sort(t, function(a, b) return i(a) < i(b) end)
 end
 
 function _.sample_size(t, n)
