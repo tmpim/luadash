@@ -171,7 +171,7 @@ end
 function _.sort(t)
   _.expect('sort', 1, 'table', t)
 
-  return _.sort_by(nt, _.id)
+  return _.sort_by(t, _.id)
 end
 
 function _.sample_size(t, n)
