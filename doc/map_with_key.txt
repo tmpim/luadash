@@ -6,8 +6,8 @@
 
   Example:
 
-    > _.map_with_key( { 1 = '1, 1 = '2' },
+    > _.map_with_key( { [1] = "1", [2] = "2" },
       function(k, v)
         return tostring(k), tonumber(v)
       end)
-    { ['1'] = 1, ['2'] = 2 }
+    { [ "1" ] = 1, [ "2" ] = 2 }
