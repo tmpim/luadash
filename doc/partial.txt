@@ -6,5 +6,5 @@
 
   Example:
 
-    > print(_.partial(_.ops.plus, 1)(2))
+    > _.partial(_.ops.plus, 1)(2)
     3

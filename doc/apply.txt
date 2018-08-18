@@ -4,6 +4,6 @@
 
   Example:
 
-    > print(_.apply(_.ops.add, {1, 2}))
+    > _.apply(_.ops.plus, {1, 2})
     3
 

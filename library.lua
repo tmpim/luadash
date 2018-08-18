@@ -28,7 +28,7 @@ function _.partial(f, ...)
     for i = 1, args2.n do
       actual[args.n + i] = args2[i]
     end
-    return f(unpack(actual, 1, args.n + args2.n))
+    return f(table.unpack(actual, 1, args.n + args2.n))
   end
 end
 
@@ -61,7 +61,7 @@ end
 function _.apply(f, t)
   _.expect('apply', 1, 'function', f)
   _.expect('apply', 2, 'table', t)
-  return f(unpack(t, 1, #t))
+  return f(table.unpack(t, 1, #t))
 end
 
 function _.map(t1, f, ...)

@@ -8,7 +8,7 @@
   Example:
 
     > _.sample_size({1,2,3,4,5,6,7,8,9,10}, 2)
-    { 5, 8 }
+    { 1, 8 }
 
 * _.sample(array)
 
@@ -17,9 +17,9 @@
   Example:
 
     > _.sample({1,2,3,4,5,6})
-    4
+    1
 
-    The number 4 was chosen for this example
+    The number 1 was chosen for this example
     through fair dice roll, thus it is guaranteed
     to be random.
 
