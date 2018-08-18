@@ -9,5 +9,5 @@
 
     > _.expect('foo', 1, 'string', '')
     > _.expect('foo', 1, 'number', '')
-    error: foo: bad argument #1 (number expected,\
-    \  got string)
+    example_2.lua:1: foo: bad argument #1
+      (expected number, got string)
