@@ -1,0 +1,13 @@
+sudo: required
+notifications:
+  email: false
+jdk:
+  - oraclejdk8
+install:
+  - mkdir -p $HOME/.cc-jars
+  - wget -O howlci.jar https://squiddev.cc/maven/org/squiddev/howl.ci/0.3.0/howl.ci-0.3.0.jar
+script:
+  - java -jar howlci.jar
+cache:
+  directories:
+  - $HOME/.cc-jars

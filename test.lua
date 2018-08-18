@@ -5,29 +5,39 @@ local _ = require "library"
 local test_stack, tests_locked = { n = 0 }, false
 local test_results, test_pass, test_count = { n = 0 }, 0, 0
 
-local try_mt = { __tostring = function(self) return self.message end }
+local error_mt = { __tostring = function(self) return self.message end }
 local function try(fn)
   if not debug or not debug.traceback then
-    return pcall(fn)
-  end
-
-  local ok, err = xpcall(fn, debug.traceback)
-  if ok or (type(err) == "table" and err.message) then
-    return ok, err
-  else
-    if type(err) == "string" then
-      -- Find the common substring between the two traces. Yes, this is horrible.
-      local trace = debug.traceback()
-      for i = 1, #trace do if trace:sub(-i) ~= err:sub(-i) then
-        err = err:sub(1, -i)
-        break
-      end end
+    local ok, err = pcall(fn)
+    if ok or getmetatable(err) == error_mt then
+      return ok, err
     else
-      err = tostring(err)
+      return ok, setmetatable({ message = tostring(err) }, error_mt)
     end
-
-    return ok, setmetatable({ message = err }, try_mt)
   end
+
+  local ok, err = xpcall(fn, function(err)
+    return { message = err, trace = debug.traceback() }
+  end)
+
+  -- If we're an existing error, or we passed then just return
+  if ok then return ok, err end
+  if type(err) ~= "table" then
+    return setmetatable({ message = tostring(err) }, error_mt)
+  end
+
+  if getmetatable(err.message) == error_mt then return ok, err.message end
+
+  -- Find the common substring between the two traces. Yes, this is horrible.
+  local trace = debug.traceback()
+  for i = 1, #trace do
+    if trace:sub(-i) ~= err.trace:sub(-i) then
+      err.trace = err.trace:sub(1, -i)
+      break
+    end
+  end
+
+  return ok, setmetatable(err, error_mt)
 end
 
 --- Describe something which will be tested, such as a function or situation
@@ -48,7 +58,7 @@ local function describe(name, body)
   test_stack.n = n - 1
 
   -- We rethrow the error within describe blocks
-  if not ok then error(err, 0) end
+  if not ok then error(err) end
 end
 
 --- Declare a single test within a context
@@ -69,11 +79,20 @@ local function it(name, body)
   local ok, err = try(body)
 
   -- Push the test name onto the message
+  local name = table.concat(test_stack, " ", 1, test_stack.n)
   test_count = test_count + 1
   test_results[test_count] = {
-    ok = ok, message = not ok and err.message,
-    name = table.concat(test_stack, " ", 1, test_stack.n),
+    ok = ok, name = name,
+    message = not ok and err.message,
+    trace = not ok and err.trace,
   }
+
+  if howlci then
+    if ok then howlci.status("pass", name)
+    elseif err.fail then howlci.status("fail", name)
+    else howlci.status("error", name)
+    end
+  end
 
   -- Pop the
   test_stack.n, tests_locked = n - 1, false
@@ -96,11 +115,17 @@ local function report()
     if not test.ok then
       term.setTextColour(colours.red) print(test.name)
       term.setTextColour(colours.white)   print("  " .. test.message:gsub("\n", "\n  "))
+      if test.trace then
+        term.setTextColour(colours.lightGrey)   print("  " .. test.trace:gsub("\n", "\n  "))
+      end
     end
   end
 
-  print(("Ran %s tests, of which %s passed (%.2f%%)")
-    :format(test_count, test_pass, (test_pass / test_count) * 100))
+  local info = ("Ran %s tests, of which %s passed (%.2f%%)")
+    :format(test_count, test_pass, (test_pass / test_count) * 100)
+
+  term.setTextColour(colours.white) print(info)
+  if howlci then howlci.log("debug", info) sleep(3) end
 end
 
 --- Fail a test with the given message
@@ -108,7 +133,7 @@ end
 -- @tparam message The message to fail with
 local function fail(message)
   _.expect('fail', 1, 'string', message)
-  error({ message = message }, 0)
+  error(setmetatable({ message = message, fail = true }, error_mt))
 end
 
 describe("luadash", function()
@@ -122,7 +147,7 @@ describe("luadash", function()
     end
     local function it_example(env, id, example, result)
       it("#" .. id, function()
-        local fn, err = load("return " .. example, "=#" .. id, nil, env)
+        local fn, err = load("return _echo(" .. example .. ")", "=example_" .. id .. ".lua", nil, env)
         if not fn then fn, err = load(example, "=#" .. id, nil, env) end
 
         if not fn then
@@ -131,10 +156,18 @@ describe("luadash", function()
 
         local expected_res = normalise(result)
 
-        local res = fn()
-        if res == nil and expected_res == "" then return end
+        local ok, res = try(fn)
+        local actual_res
+        if not ok then
+          -- Attempt to guess if this test checks against error messages, propagating
+          -- if not.
+          if not expected_res:find("^example_%d+.lua:%d+:") then error(res) end
+          actual_res = normalise(tostring(res.message))
+        else
+          if res == nil and expected_res == "" then return end
+          actual_res = normalise(textutils.serialize(res))
+        end
 
-        local actual_res = normalise(textutils.serialize(res))
         if actual_res ~= expected_res then
           fail(("Expected: %s\nActual:   %s"):format(expected_res, actual_res))
         end
@@ -146,7 +179,8 @@ describe("luadash", function()
       local name = file:match("/([^./]+)%.txt$")
       describe(name, function()
         describe("with an example", function()
-          local env = setmetatable({ _ = require "library" }, { __index = _ENV })
+          local env = setmetatable({ _ = require "library", _echo = function(...) return ... end },
+            { __index = _ENV })
           local count = 0
 
           local handle = fs.open(file, "r")

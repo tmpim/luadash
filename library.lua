@@ -75,7 +75,7 @@ function _.zip(...)
   for i = 1, args.n do
     _.expect('zip', 1, 'table', args[i])
   end
-  return _.map(args[1], function(...) return {...} end, unpack(args, 2, args.n))
+  return _.map(args[1], function(...) return {...} end, table.unpack(args, 2, args.n))
 end
 
 function _.push(t, ...)
