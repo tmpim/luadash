@@ -66,7 +66,7 @@ end
 
 function _.clone(value)
   if type(value) == 'table' then
-  local copy = {}
+    local copy = {}
     for k, v in pairs(value) do
       copy[k] = v
     end
