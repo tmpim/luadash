@@ -7,13 +7,152 @@ local function skip1(f)
   end
 end
 
-function _.expect(n, arg, t, v)
-  if t == 'value' then
+local function iterateeType(p)
+  local t = type(p)
+  if t == 'function' then
+    return t
+  elseif t == 'string' then
+    return 'property'
+  elseif t == 'table' then
+    local isMap = false
+    for k, _ in pairs(p) do
+      if type(k) ~= 'number' then
+        isMap = true
+        break
+      end
+    end
+
+    if not isMap then
+      if #p ~= 2 then
+        isMap = true
+      end
+    end
+
+    if not isMap then
+      local pathType = type(p[1])
+      if pathType ~= 'table' and pathType ~= 'string' then
+        isMap = true
+      end
+    end
+
+    if isMap then
+      return 'matches'
+    else
+      return 'matches_property'
+    end
+  end
+
+  return 'NaI'
+end
+
+local function indexIteratee(p)
+  local t = iterateeType(p)
+
+  if t == 'function' then
+    return p
+  elseif t == 'property' then
+    return _.property(p)
+  elseif t == 'matches_property' then
+    return _.matches_property(p[1], p[2])
+  elseif t == 'matches' then
+    return _.matches(p)
+  end
+end
+
+function _.expect(n, arg, ts, v)
+  if ts == 'value' then
     if v == nil then
       return error(('%s: bad argument #%d (got nil)'):format(n, arg))
     end
-  elseif type(v) ~= t then
-    return error(('%s: bad argument #%d (expected %s, got %s)'):format(n, arg, t, type(v)))
+  else
+    local valid = false
+    for t in ts:gmatch("[^|]+") do
+      if t == 'iteratee' or t == 'predicate' then
+        local i = iterateeType(v)
+        if i ~= 'NaI' then
+          valid = true
+        end
+      elseif type(v) == t then
+        valid = true
+      end
+    end
+
+    if not valid then
+      return error(('%s: bad argument #%d (expected %s, got %s)'):format(n, arg, ts, type(v)))
+    end
+  end
+end
+
+function _.property(path)
+  _.expect('property', 1, 'string|table', path)
+  if type(path) == 'string' then
+    path = {path}
+  end
+
+  return function(tab)
+    return _.reduce(path, function(ds, p)
+      if type(ds) == 'table' then
+        return ds[p]
+      else
+        return nil
+      end
+    end, tab)
+  end
+end
+
+function _.matches(src)
+  _.expect('matches', 1, 'value', src)
+  local stack = {src, n = 1}
+
+  local f
+
+  local function cmp(newSrc, newTab)
+    if type(newTab) ~= 'table' then return false end
+
+    stack.n = stack.n + 1
+    stack[stack.n] = newSrc
+    local v = f(newTab)
+    stack.n = stack.n - 1
+
+    return v
+  end
+
+  function f(val)
+    local valType = type(val)
+    if type(stack[stack.n]) ~= 'table' then
+      return val == stack[stack.n]
+    end
+
+    for k, v in pairs(stack[stack.n]) do
+      if type(v) == 'table' then
+        if not cmp(v, val[k]) then
+          return false
+        end
+      else
+        if valType ~= 'table' then
+          return false
+        end
+
+        if val[k] ~= v then
+          return false
+        end
+      end
+    end
+
+    return true
+  end
+
+  return f
+end
+
+function _.matches_property(path, srcValue)
+  _.expect('matches_property', 1, 'string|table', path)
+  _.expect('matches_property', 2, 'value', srcValue)
+  local p = _.property(path)
+  local m = _.matches(srcValue)
+
+  return function(tab)
+    return m(p(tab))
   end
 end
 
@@ -34,10 +173,11 @@ end
 
 function _.map_with_key(tab, f)
   _.expect('map_with_key', 1, 'table', tab)
-  _.expect('map_with_key', 2, 'function', f)
+  _.expect('map_with_key', 2, 'iteratee', f)
+  f = indexIteratee(f)
   local out = {}
   for k, v in pairs(tab) do
-    local k, v = f(k, v)
+    k, v = f(k, v)
     out[k] = v
   end
   return out
@@ -45,7 +185,8 @@ end
 
 function _.reduce_with_index(tab, f, z)
   _.expect('reduce_with_index', 1, 'table', tab)
-  _.expect('reduce_with_index', 2, 'function', f)
+  _.expect('reduce_with_index', 2, 'iteratee', f)
+  f = indexIteratee(f)
   _.expect('reduce_with_index', 3, 'value', z)
   local out = z
   for i = 1, #tab do
@@ -66,7 +207,8 @@ end
 
 function _.map(t1, f, ...)
   _.expect('map', 1, 'table', t1)
-  _.expect('map', 2, 'function', f)
+  _.expect('map', 2, 'iteratee', f)
+  f = indexIteratee(f)
   return _.flat_map(t1, function(...) return { (f(...)) } end, ...)
 end
 
@@ -115,7 +257,8 @@ end
 
 function _.flat_map(t1, f, ...)
   _.expect('flat_map', 1, 'table', t1)
-  _.expect('flat_map', 2, 'function', f)
+  _.expect('flat_map', 2, 'iteratee', f)
+  f = indexIteratee(f)
   local args, n = table.pack(t1, ...), 0
   for i = 1, args.n do
     _.expect('flat_map', 1 + i, 'table', args[i])
@@ -129,8 +272,8 @@ function _.flat_map(t1, f, ...)
     end
     local r = _.apply(f, these)
     if type(r) == 'table' then
-      for i = 1, #r do
-        out[li + i] = r[i]
+      for j = 1, #r do
+        out[li + j] = r[j]
       end
       li = li + #r
     else
@@ -143,7 +286,8 @@ end
 
 function _.filter(t, p)
   _.expect('filter', 1, 'table', t)
-  _.expect('filter', 2, 'function', p)
+  _.expect('filter', 2, 'predicate', p)
+  p = indexIteratee(p)
   local out, li = {}, 1
   for i = 1, #t do
     if p(t[i]) then
@@ -161,7 +305,8 @@ end
 
 function _.sort_by(t, f)
   _.expect('sort_by', 1, 'table', t)
-  _.expect('sort_by', 2, 'function', f)
+  _.expect('sort_by', 2, 'iteratee', f)
+  f = indexIteratee(f)
   local nt = _.map(t, _.id)
 
   table.sort(nt, function(a, b) return f(a) < f(b) end)
@@ -215,7 +360,8 @@ end
 
 function _.every(t, p)
   _.expect('every', 1, 'table', t)
-  _.expect('every', 1, 'function', p)
+  _.expect('every', 1, 'predicate', p)
+  p = indexIteratee(p)
   for i = 1, #t do
     if not p(t[i]) then
       return false
@@ -226,7 +372,8 @@ end
 
 function _.some(t, p)
   _.expect('some', 1, 'table', t)
-  _.expect('some', 1, 'function', p)
+  _.expect('some', 1, 'predicate', p)
+  p = indexIteratee(p)
   for i = 1, #t do
     if p(t[i]) then
       return true
@@ -258,7 +405,7 @@ end
 function _.keys(t)
   _.expect('keys', 1, 'table', t)
   local out, i = {}, 1
-  for k, v in pairs(t) do
+  for k, _v in pairs(t) do
     out[i] = k
     i = i + 1
   end
@@ -268,7 +415,7 @@ end
 function _.values(t)
   _.expect('values', 1, 'table', t)
   local out, i = {}, 1
-  for k, v in pairs(t) do
+  for _k, v in pairs(t) do
     out[i] = v
     i = i + 1
   end
@@ -283,7 +430,7 @@ function _mt.__call(_, x)
   end
   if type(x) == 'table' then
     return setmetatable(x,
-      { __index = function(t, k)
+      { __index = function(_t, k)
         return wrap(_[k])
       end })
   else

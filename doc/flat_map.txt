@@ -1,6 +1,6 @@
 * _.flat_map(array, f, ...)
 
-  Create a new array by applying 'function' to
+  Create a new array by applying 'iteratee' to
   every i-th element from 'array' and '...', and
   concatenating all of the resulting arrays.
 

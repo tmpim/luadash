@@ -1,6 +1,6 @@
-* _.map(array, function, ...)
+* _.map(array, iteratee, ...)
 
-  Create a new array by applying 'function' to
+  Create a new array by applying 'iteratee' to
   every i-th element from 'array' and '...'.
 
   Examples:

@@ -1,7 +1,7 @@
-* _.map_with_key(table, function)
+* _.map_with_key(table, iteratee)
 
   Modify each key-value pair in 'table' by applying
-  'function' to get the new key /and/ value.
+  'iteratee' to get the new key /and/ value.
 
 
   Example:

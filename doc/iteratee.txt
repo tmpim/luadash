@@ -1,0 +1,38 @@
+* _.property(path)
+
+  Creates a function that returns the value at
+  path of a given table.
+
+  Example:
+
+  _.property("a")({a=6})
+=>
+  6
+
+* _.matches_property(path, value)
+
+  Creates a function that performs a partial
+  deep comparison between the value at path of
+  a given table to srcValue, returning true if
+  the table value is equivalent, else false.
+
+  Example:
+
+    _.matches_property({ "a", "b" }, 2)
+      ({ a={ b=2 } })
+  =>
+    true
+
+* _.matches(source)
+
+  Creates a function that performs a partial
+  deep comparison between a given table and
+  source, returning true if the given table
+  has equivalent property values, else false.
+
+  Example:
+
+    _.matches({ a={ c=7 } })
+      ({ a={ c=7, d=9 }, b=3 })
+  =>
+    true

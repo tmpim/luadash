@@ -1,7 +1,7 @@
-* _.reduce_with_index(array, function, zero)
+* _.reduce_with_index(array, iteratee, zero)
 
   Reduce all of the elements in 'array' to a single
-  value by successively applying 'function' to each
+  value by successively applying 'iteratee' to each
   element, its index, and the accumulator, starting
   from 'zero'.
 
