@@ -1,0 +1,8 @@
+* _.shuffle(t)
+
+  Create a new array by shuffling t.
+
+  Example:
+    > math.randomseed( 2 ); return _.shuffle({ 1, 2, 3 })
+    { 2, 1, 3 }
+

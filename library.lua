@@ -275,6 +275,16 @@ function _.values(t)
   return out
 end
 
+function _.shuffle(t)
+  _.expect('shuffle', 1, 'table', t)
+  local out = {unpack(t)}
+  for i = 1, #out - 1 do
+    local j = math.random( i, #out )
+    out[i], out[j] = out[j], out[i]
+  end
+  return out
+end
+
 function _mt.__call(_, x)
   local function wrap(f)
     return function(...)
