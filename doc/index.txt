@@ -177,3 +177,22 @@ documentation page; You can read it by executing
 * _.values(t)
 
   Return a list of the values in 't'.
+
+* _.property(path)
+
+  Creates a function that returns the value at
+  path of a given table.
+
+* _.matches_property(path, value)
+
+  Creates a function that performs a partial
+  deep comparison between the value at path of
+  a given table to srcValue, returning true if
+  the table value is equivalent, else false.
+
+* _.matches(source)
+
+  Creates a function that performs a partial
+  deep comparison between a given table and
+  source, returning true if the given table
+  has equivalent property values, else false.
