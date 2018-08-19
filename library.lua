@@ -65,16 +65,14 @@ function _.apply(f, t)
 end
 
 function _.clone(value)
-  local out
   if type(value) == 'table' then
-    out = {}
+  local copy = {}
     for k, v in pairs(value) do
-      out[k] = v
+      copy[k] = v
     end
-  else
-    out = value
+    return copy
   end
-  return out
+  return value
 end
 
 function _.map(t1, f, ...)
