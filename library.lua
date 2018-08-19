@@ -174,6 +174,21 @@ function _.sort(t)
   return _.sort_by(t, _.id)
 end
 
+function _.size(t)
+  local typ = type(t)
+  if typ == "table" then
+    local size = 0
+    for k,v in pairs(t) do
+      size = size + 1
+    end
+    return size
+  elseif typ == "string" then
+    return string.len(t)
+  else
+    error("cannot get the size of " .. typ)
+  end
+end
+
 function _.sample_size(t, n)
   _.expect('sample_size', 1, 'table', t)
   _.expect('sample_size', 2, 'number', n)
@@ -319,3 +334,4 @@ function string.starts_with(self, s)
 end
 
 return _
+
