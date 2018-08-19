@@ -1,0 +1,10 @@
+* _.clone(value)
+
+  Create a shallow copy by cloning 'value'.
+
+  Examples:
+
+    > _.clone({ 1, 2, 3 })
+    { 1, 2, 3 }
+    > _.clone({ a = 1, b = true, c = "c" })
+    { a = 1, c = "c", b = true }

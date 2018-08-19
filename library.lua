@@ -64,6 +64,19 @@ function _.apply(f, t)
   return f(table.unpack(t, 1, #t))
 end
 
+function _.clone(value)
+  local out
+  if type(value) == 'table' then
+    out = {}
+    for k, v in pairs(value) do
+      out[k] = v
+    end
+  else
+    out = value
+  end
+  return out
+end
+
 function _.map(t1, f, ...)
   _.expect('map', 1, 'table', t1)
   _.expect('map', 2, 'function', f)
