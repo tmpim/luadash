@@ -1,6 +1,6 @@
 * _.clone(value)
 
-  Create a shallow copy by cloning 'value'.
+  Create a shallow copy of 'value'.
 
   Examples:
 
