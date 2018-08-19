@@ -277,7 +277,7 @@ end
 
 function _.shuffle(t)
   _.expect('shuffle', 1, 'table', t)
-  local out = {unpack(t)}
+  local out = _.map(t, _.id)
   for i = 1, #out - 1 do
     local j = math.random( i, #out )
     out[i], out[j] = out[j], out[i]
