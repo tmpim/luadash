@@ -64,6 +64,17 @@ function _.apply(f, t)
   return f(table.unpack(t, 1, #t))
 end
 
+function _.clone(value)
+  if type(value) == 'table' then
+    local copy = {}
+    for k, v in pairs(value) do
+      copy[k] = v
+    end
+    return copy
+  end
+  return value
+end
+
 function _.map(t1, f, ...)
   _.expect('map', 1, 'table', t1)
   _.expect('map', 2, 'function', f)
@@ -277,7 +288,7 @@ end
 
 function _.shuffle(t)
   _.expect('shuffle', 1, 'table', t)
-  local out = _.map(t, _.id)
+  local out = _.clone(t)
   for i = 1, #out - 1 do
     local j = math.random(i, #out)
     out[i], out[j] = out[j], out[i]
