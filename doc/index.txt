@@ -50,6 +50,19 @@ documentation page; You can read it by executing
   Unlike `reduce_with_index', 'function' is *not*
   applied to the indices!
 
+* _.reduce_right(array, function, zero)
+
+  Reduce all of the elements in 'array' to a single
+  value by successively applying 'function' to each
+  element, starting from 'zero'.
+
+  Unlike `reduce`, this function associates
+  applications of functions to the right.
+
+  Unlike `reduce_with_index', 'function' is *not*
+  applied to the indices!
+
+
 * _.apply(function, arguments)
 
   Apply 'function' to the array 'arguments'.

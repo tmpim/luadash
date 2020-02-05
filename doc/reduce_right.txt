@@ -1,0 +1,14 @@
+* _.fold_right(array, function, start)
+
+  Compute a summary of array using the given
+  'function', starting from the 'start' value.
+
+  Unlike `reduce`, this function associates
+  applications of functions to the right.
+
+  Note: this function is tail recursive.
+
+  Examples:
+
+    > _.reduce_right({ "a", "b", "c" }, _.ops.concat, "")
+    "abc"

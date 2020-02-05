@@ -58,6 +58,23 @@ function _.reduce(tab, f, z)
   return _.reduce_with_index(tab, skip1(f), z)
 end
 
+function _.reduce_right(t, f, z)
+  _.expect('fold_right', 1, 'table', t)
+  _.expect('fold_right', 2, 'function', f)
+
+  local len = #t
+
+  local function go(k, i)
+    if i > len then
+      return k(z)
+    else
+      return go(function(r) return k(f(t[i], r)) end, i + 1)
+    end
+  end
+
+  return go(function(x) return x end, 1)
+end
+
 function _.apply(f, t)
   _.expect('apply', 1, 'function', f)
   _.expect('apply', 2, 'table', t)
@@ -313,30 +330,26 @@ function _mt.__call(_, x)
 end
 
 _.ops = {
-  plus = function(a, b) return a + b end,
-  minus = function(a, b) return a - b end,
-  times = function(a, b) return a * b end,
-  over = function(a, b) return a / b end,
-  power = function(a, b) return a ^ b end,
-  modulo = function(a, b) return a % b end,
+  plus      = function(a, b) return a + b end,
+  minus     = function(a, b) return a - b end,
+  times     = function(a, b) return a * b end,
+  over      = function(a, b) return a / b end,
+  power     = function(a, b) return a ^ b end,
+  modulo    = function(a, b) return a % b end,
+  concat    = function(a, b) return a .. b end,
   remainder = function(a, b) return a % b end,
-  rem = function(a, b) return a % b end,
-  mod = function(a, b) return a % b end,
-  conj = function(a, b) return a and b end,
-  disj = function(a, b) return a or b end,
-  equals = function(a, b) return a == b end,
+  rem       = function(a, b) return a % b end,
+  mod       = function(a, b) return a % b end,
+  conj      = function(a, b) return a and b end,
+  disj      = function(a, b) return a or b end,
+  equals    = function(a, b) return a == b end,
+  ['>']     = function(a, b) return a > b end,
+  ['>=']    = function(a, b) return a >= b end,
+  ['<']     = function(a, b) return a < b end,
+  ['<=']    = function(a, b) return a <= b end,
   divisible_by = function(a, b)
     return b % a == 0
   end,
-  ['>'] = function(a, b) return a > b end,
-  ['>='] = function(a, b) return a >= b end,
-  ['<'] = function(a, b) return a < b end,
-  ['<='] = function(a, b) return a <= b end,
 }
-
-function string.starts_with(self, s)
-  _.expect('starts_with', 1, 'string', s)
-  return self:find('^' .. s) ~= nil
-end
 
 return _
