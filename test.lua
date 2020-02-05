@@ -45,8 +45,8 @@ end
 -- @tparam string name   The name of the object to test
 -- @tparam function body A function which describes the tests for this object.
 local function describe(name, body)
-  _.expect('describe', 1, 'string', name)
-  _.expect('describe', 2, 'function', body)
+  _.expect(1, 'string', name)
+  _.expect(2, 'function', body)
   if tests_locked then error("Cannot describe something while running tests", 2) end
 
   -- Push our name onto the stack, eval and pop it
@@ -67,8 +67,8 @@ end
 -- @tparam function body A function which runs the test, failing if it does
 --                       the assertions are not met.
 local function it(name, body)
-  _.expect('it', 1, 'string', name)
-  _.expect('it', 2, 'function', body)
+  _.expect(1, 'string', name)
+  _.expect(2, 'function', body)
   if tests_locked then error("Cannot create test while running tests", 2) end
 
   -- Push name onto the stack

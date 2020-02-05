@@ -1,13 +1,16 @@
-* _.expect(name, idx, type, value)
+* _.expect(idx, type, value)
 
   Assert that 'value' is of the given 'type', and,
   if not, throw an error in the format
 
   name: bad argument #idx (type expected, got ...)
 
+  _.expect tries to automatically deduce the
+  function's name using debug.getinfo.
+
   Examples:
 
-    > _.expect('foo', 1, 'string', '')
-    > _.expect('foo', 1, 'number', '')
-    example_2.lua:1: foo: bad argument #1
+    > _.expect(1, 'string', '')
+    > _.expect(1, 'number', '')
+    example_2.lua:1: <no name info>: bad argument #1
       (expected number, got string)
