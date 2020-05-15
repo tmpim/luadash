@@ -1,0 +1,14 @@
+* _.size(t)
+
+  Returns the size of 't'. Accepts tables and strings.
+  Note that this function will not stop counting when
+  it hits a nil element, unlike the # operator.
+
+  Example:
+
+    > _.size({1, 2, 3}) 
+    3
+    > _.size({1, 2, nil, 3})
+    3
+    > _.size("abc")
+    3
